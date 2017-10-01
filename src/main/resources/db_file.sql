@@ -1,3 +1,10 @@
+create table sa_transaction_type
+(
+	 type_id int auto_increment
+    ,type_name varchar(100)
+    
+    ,primary key(type_id)
+);
 
-INSERT INTO `society_app`.`sa_general_head` (`general_head_name`, `section_id`, `is_default`)
-VALUES ('SUNDRY DEBITORS', '2', 1);
+insert into sa_transaction_type(`type_name`)value('Credit');
+insert into sa_transaction_type(`type_name`)value('Debit');
