@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-	<changeSet author="liquibase-docs" id="10">
+	<changeSet author="liquibase-docs" id="11">
 		<sqlFile dbms="mysql" encoding="utf8"
 			endDelimiter=";" path="db_file.sql" relativeToChangelogFile="false"
 			splitStatements="true" stripComments="true" />
