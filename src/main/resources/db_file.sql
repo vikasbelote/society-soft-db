@@ -1,30 +1,37 @@
-create table sa_society_additional_area
+create table sa_maintenance_head_charge_calc_type
 (
-	 area_id int auto_increment
-    ,area_name varchar(100)
-    ,society_id int
-    
-    ,primary key(area_id)
-    ,foreign key(society_id)references sa_society(society_id)on delete set null on update cascade
+	 calc_type_id int auto_increment
+    ,calc_type varchar(100) 
+	,primary key(calc_type_id) 
 );
 
-alter table sa_society_member add wing_number varchar(100);
-alter table sa_society_member add flat_number varchar(50);
-alter table sa_society_member add square_feet int;
-alter table sa_society_member add additional_area_id int;
-alter table sa_society_member add foreign key(additional_area_id)references sa_society_additional_area(area_id)on delete set null on update cascade;
+INSERT INTO `society_app`.`sa_maintenance_head_charge_calc_type` (`calc_type_id`, `calc_type`) VALUES ('1', 'Fixed Amount');
+INSERT INTO `society_app`.`sa_maintenance_head_charge_calc_type` (`calc_type_id`, `calc_type`) VALUES ('2', 'Per square feet');
+INSERT INTO `society_app`.`sa_maintenance_head_charge_calc_type` (`calc_type_id`, `calc_type`) VALUES ('3', 'Reference Head');
+INSERT INTO `society_app`.`sa_maintenance_head_charge_calc_type` (`calc_type_id`, `calc_type`) VALUES ('4', 'No calculation');
 
 
-INSERT INTO `society_app`.`sa_menu` (`menu_id`, `menu_name`) VALUES ('14', 'Head');
-INSERT INTO `society_app`.`sa_menu` (`menu_id`, `menu_name`) VALUES ('15', 'Interest policy');
-INSERT INTO `society_app`.`sa_menu` (`menu_id`, `menu_name`) VALUES ('16', 'Penalties policy');
-INSERT INTO `society_app`.`sa_menu` (`menu_id`, `menu_name`) VALUES ('17', 'Rebate policy');
-INSERT INTO `society_app`.`sa_menu` (`menu_id`, `menu_name`) VALUES ('18', 'Additional Area');
-INSERT INTO `society_app`.`sa_menu` (`menu_id`, `menu_name`) VALUES ('19', 'Member');
-INSERT INTO `society_app`.`sa_menu` (`menu_id`, `menu_name`) VALUES ('20', 'Additional Area');
+create table sa_maintenance_head_charge_calc
+(
+	 calc_id int auto_increment
+    ,calc_type_id int
+    ,fixed_amount double
+    ,percentage_amount double
+    ,reference_head_id int
+    ,primary key(calc_id) 
+    ,foreign key(calc_type_id)references sa_maintenance_head_charge_calc_type(calc_type_id)on delete set null on update cascade
+);
 
-alter table sa_society add registration_no varchar(200);
 
-INSERT INTO `society_app`.`sa_society_additional_area` (`area_id`, `area_name`) VALUES ('1', 'Terrace');
-INSERT INTO `society_app`.`sa_society_additional_area` (`area_id`, `area_name`) VALUES ('2', 'Mezzanine Floors');
-INSERT INTO `society_app`.`sa_society_additional_area` (`area_id`, `area_name`) VALUES ('3', 'Other');
+create table sa_maintenance_head
+(
+	 head_id int auto_increment
+    ,head_name varchar(100)
+    ,society_id int
+    ,calc_id int
+    ,primary key(head_id)
+    ,foreign key(society_id)references sa_society(society_id)on delete set null on update cascade
+    ,foreign key(calc_id)references sa_maintenance_head_charge_calc(calc_id)on delete set null on update cascade
+);
+
+alter table sa_maintenance_head_charge_calc add foreign key(reference_head_id)references sa_maintenance_head(head_id)on delete set null on update cascade
